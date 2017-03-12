@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 //******************************************************
 // The ChronoInterface class acts as a literal interface
 // for the ChronoTimer. This has all of the methods that
@@ -14,14 +16,21 @@ public class ChronoInterface {
 	public static ChronoInterface chronoTimer = new ChronoInterface();
 	List<Channel> channels = new ArrayList<Channel>(9);//0 will be an empty channel location for ease of assigning
 	Power power = new Power();
-	Race race = new Race();
+//	Race race = new Race();
 	//Event event = new IndEvent();
+	boolean runInProgress=true;
+	int runNum=1;
+	ArrayList<Event> runs= new ArrayList<Event>();
+	Gson g = new Gson();
+	String json;
 	
 	public ChronoInterface(){
 		channels.add(0,null);
 		for(int i=1;i<9;i++){
 			channels.add(i,new Channel(i));
 		}
+		runs.add(0,null);
+		runs.add(runNum, new IndEvent());
 		Time.systemTime.setTime();
 	}
 	public void power(){
@@ -35,11 +44,11 @@ public class ChronoInterface {
 	}
 	public void dnf(){
 		if(power.powerStatus)
-			race.dnf();
+			runs.get(runNum).dnf();
 	}
 	public void cancel(){
 		if(power.powerStatus)
-			race.cancel();
+			runs.get(runNum).cancel();
 	}
 	public void tog(String channel){
 		if(power.powerStatus)
@@ -50,9 +59,9 @@ public class ChronoInterface {
 			if(channels.get(Integer.parseInt(channel)).trig()){
 				System.out.println("Triggered Channel "+channel);
 				if(Integer.parseInt(channel)%2==0)
-					race.event.finish();
+					runs.get(runNum).finish();
 				else
-					race.event.start();
+					runs.get(runNum).start();
 			}
 			else
 				System.out.println("Unable to Trigger Channel "+channel);		
@@ -75,36 +84,61 @@ public class ChronoInterface {
 	}
 	public void event(String type){
 		if(power.powerStatus)
-			System.out.println(race.setEvent(type)!=null ? "Created "+type+" event": "Failed to create "+type+" event");
+		runs.remove(runNum);
+		switch (type) {
+		case "IND":
+			runs.add(runNum, new IndEvent());
+			System.out.println("Created "+type+" event");
+			return;
+		case "PARIND":
+			runs.add(runNum, new ParIndEvent());
+			System.out.println("Created "+type+" event");
+			return;
+		case "GRP":
+			break;
+		case "PARGRP":
+			break;
+		}
+		System.out.println("Failed to create "+type+" event");
 	}
 	public void newrun(){
 		if(power.powerStatus)
-			System.out.println(race.newRun()? "Created Run "+race.runNum : "Run "+race.runNum+" Still In Progress");
+			if(!runInProgress){
+				runNum++;
+				runs.add(runNum, new IndEvent());
+				runInProgress=true;
+				System.out.println("Created Run "+runNum);
+			}
+			else
+				System.out.println("Run "+runNum+" Still In Progress");
 	}
-	public void endrun(){
+	public void endrun() throws Exception{
 		if(power.powerStatus){
-			race.endRun();
-			System.out.println("Ended Run "+(race.runNum));
+			new Export(runs.get(runNum));
+			runInProgress=false;
+			System.out.println("Ended Run "+(runNum));
 		}
 	}
 	public void print(){
 		if(power.powerStatus)
-			race.print();
+			new Print(runs);
 	}
-	public void export(String run){
-		if(power.powerStatus)
-			race.export("");
+	public void export(String run) throws Exception{
+		if(power.powerStatus){
+			new Export(runs.get(runNum));
+			runInProgress=false;
+		}
 	}
 	public void num(String number){
 		if(power.powerStatus)
-			System.out.println(race.setNum(Integer.parseInt(number)) ? "Added "+number+" to Race queue": "Failed to add "+number+" to Race queue");
+			System.out.println(runs.get(runNum).add(Integer.parseInt(number)) ? "Added "+number+" to Race queue": "Failed to add "+number+" to Race queue");
 	}
 	public void clr(String number){
 		if(power.powerStatus)
-			race.clear(Integer.parseInt(number));
+			runs.get(runNum).clear(Integer.parseInt(number));
 	}
 	public void swap(){
 		if(power.powerStatus)
-			race.swap();
+			runs.get(runNum).swap();
 	}
 }

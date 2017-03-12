@@ -1,10 +1,10 @@
 import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class ParIndEvent implements Event{
-	public Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
-	public Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
-	public Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
+	public ArrayDeque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
+	public ArrayDeque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
+	public ArrayDeque<Competitor> completed;// = new ArrayDeque<Competitor>();
+	
 	public ParIndEvent(){
 		startQueue = new ArrayDeque<Competitor>();
 		finishQueue = new ArrayDeque<Competitor>();
@@ -56,11 +56,19 @@ public class ParIndEvent implements Event{
 		startQueue.addFirst(finishQueue.removeLast());
 	}
 	@Override
+	public void clear(int num){
+		
+	}
+	@Override
+	public void swap(){
+		
+	}
+	@Override
 	public String getEventType(){
 		return "PARIND";
 	}
 	@Override
-	public Deque getCompleted(){
+	public ArrayDeque<Competitor> getCompleted(){
 		return completed;
 	}
 }

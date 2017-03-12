@@ -1,5 +1,4 @@
 import java.util.ArrayDeque;
-import java.util.Deque;
 
 /*
  The IndEvent class :) 
@@ -8,9 +7,9 @@ import java.util.Deque;
  */
 
 public class IndEvent implements Event{//extends ChronoInterface implements Event{
-	public Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
-	public Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
-	public Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
+	public ArrayDeque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
+	public ArrayDeque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
+	public ArrayDeque<Competitor> completed;// = new ArrayDeque<Competitor>();
 	
 	public IndEvent(){
 		startQueue = new ArrayDeque<Competitor>();
@@ -32,9 +31,7 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	}
 	@Override
 	public void start() {
-		System.out.println("here");
 		if(!startQueue.isEmpty()){
-			System.out.println("here2");
 			temp=startQueue.remove();
 			temp.setStartTime(Time.systemTime.getRunningTime());
 			finishQueue.add(temp);
@@ -68,7 +65,15 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 		return "IND";
 	}
 	@Override
-	public Deque getCompleted(){
+	public ArrayDeque<Competitor> getCompleted(){
 		return completed;
+	}
+	@Override
+	public void clear(int num){
+		
+	}
+	@Override
+	public void swap(){
+		
 	}
 }
