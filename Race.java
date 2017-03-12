@@ -71,7 +71,10 @@ public class Race {
 	}
     
 	public boolean setNum(int competitorNo){
-		return startQueue.add(new Competitor(competitorNo));
+		Competitor temp=new Competitor(competitorNo);
+		if(startQueue.contains(temp)||finishQueue.contains(temp)||completed.contains(temp))
+			return false;
+		return startQueue.add(temp);
 	}
     
     //todo
