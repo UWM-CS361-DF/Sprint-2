@@ -2,9 +2,9 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class ParIndEvent implements Event{
-	Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
-	Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
-	Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
+	public Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
+	public Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
+	public Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
 	public ParIndEvent(){
 		startQueue = new ArrayDeque<Competitor>();
 		finishQueue = new ArrayDeque<Competitor>();
@@ -17,6 +17,13 @@ public class ParIndEvent implements Event{
 	// take out the head of the start queue
 	// set the start time of the competitor
 	// put the competitor to the finish queue
+	@Override
+	public boolean add(int competitorNo){
+		if(startQueue.contains(temp)||finishQueue.contains(temp)||completed.contains(temp))
+			return false;
+		startQueue.add(new Competitor(competitorNo));
+		return true;
+	}
 	@Override
 	public void start() {
 		if(!startQueue.isEmpty()){
@@ -51,5 +58,9 @@ public class ParIndEvent implements Event{
 	@Override
 	public String getEventType(){
 		return "PARIND";
+	}
+	@Override
+	public Deque getCompleted(){
+		return completed;
 	}
 }

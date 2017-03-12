@@ -1,3 +1,5 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  
@@ -9,9 +11,6 @@ public class Race {
 	boolean runInProgress=true;
 	int runNum=1;
 	Event event = new IndEvent();
-//	Deque<Competitor> startQueue = new ArrayDeque<Competitor>();
-//	Deque<Competitor> finishQueue = new ArrayDeque<Competitor>();
-//	Deque<Competitor> completed = new ArrayDeque<Competitor>();
 	
     // make a new IND event
 	public Event setEvent(String type){
@@ -54,7 +53,8 @@ public class Race {
 	public void print(){
 		System.out.println("Run " +runNum+" "+event.getEventType()+" Results");
 		System.out.println("NUM\tTime");
-		for(Competitor competitor:event.completed){
+		Deque<Competitor> temp = event.getCompleted();
+		for(Competitor competitor:temp){
 			System.out.print(competitor.getCompetitorNumber() + "\t");
 			System.out.println(competitor.dnf ? "DNF" : String.format("%.2f", competitor.getRaceTime()));
 		}
@@ -65,10 +65,7 @@ public class Race {
 	}
     
 	public boolean setNum(int competitorNo){
-		Competitor temp=new Competitor(competitorNo);
-		//if(event.startQueue.contains(temp)||event.finishQueue.contains(temp)||event.completed.contains(temp))
-		//	return false;
-		return event.startQueue.add(temp);
+		return event.add(competitorNo);
 	}
     
     //todo

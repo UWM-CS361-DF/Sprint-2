@@ -8,9 +8,10 @@ import java.util.Deque;
  */
 
 public class IndEvent implements Event{//extends ChronoInterface implements Event{
-	Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
-	Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
-	Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
+	public Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
+	public Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
+	public Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
+	
 	public IndEvent(){
 		startQueue = new ArrayDeque<Competitor>();
 		finishQueue = new ArrayDeque<Competitor>();
@@ -23,9 +24,17 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	// set the start time of the competitor
 	// put the competitor to the finish queue
 	@Override
+	public boolean add(int competitorNo){
+		if(startQueue.contains(temp)||finishQueue.contains(temp)||completed.contains(temp))
+			return false;
+		startQueue.add(new Competitor(competitorNo));
+		return true;
+	}
+	@Override
 	public void start() {
+		System.out.println("here");
 		if(!startQueue.isEmpty()){
-			System.out.println(x);
+			System.out.println("here2");
 			temp=startQueue.remove();
 			temp.setStartTime(Time.systemTime.getRunningTime());
 			finishQueue.add(temp);
@@ -57,5 +66,9 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	@Override
 	public String getEventType(){
 		return "IND";
+	}
+	@Override
+	public Deque getCompleted(){
+		return completed;
 	}
 }
