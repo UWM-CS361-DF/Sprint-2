@@ -1,8 +1,5 @@
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 //**************************************************
@@ -40,8 +37,6 @@ public class Simulator {
 		Scanner scIn;
 		String stringInput;
 		String stringTime;
-		//Writer file= new FileWriter("Event Record.txt");
-		//BufferedWriter buffer = new BufferedWriter(file);
 		
 		try{
 			if (args.length > 0 ){
@@ -64,15 +59,12 @@ public class Simulator {
 					}
 					if(stringInput.equals("EXIT")){
 						System.out.println("Exited Simulator");
-						//buffer.close();
 						scIn.close();
 						break;
 					}
 					else if(stringInput.equals("RESET")){
 						ChronoInterface.chronoTimer=new ChronoInterface();
 						ChronoInterface.chronoTimer.power.powerStatus=true;
-				//		file= new FileWriter("Event Record.txt");
-				//		buffer = new BufferedWriter(file);
 					}
 					else if(stringInput.equals("POWER")&&!ChronoInterface.chronoTimer.power.powerStatus){
 						ChronoInterface.chronoTimer=new ChronoInterface();

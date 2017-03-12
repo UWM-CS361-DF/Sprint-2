@@ -1,5 +1,3 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 /**
  
@@ -7,30 +5,26 @@ import java.util.Deque;
  
  */
 public class Race {
-	// type of the race
-	String type;
-    // if the run is in progress
+	String eventType;
 	boolean runInProgress=true;
-    // the number of runs
 	int runNum=1;
-    // start queue
-	Deque<Competitor> startQueue = new ArrayDeque<Competitor>();
-    // finish queue
-	Deque<Competitor> finishQueue = new ArrayDeque<Competitor>();
-    // complet queue
-	Deque<Competitor> completed = new ArrayDeque<Competitor>();
+	Event event = new IndEvent();
+//	Deque<Competitor> startQueue = new ArrayDeque<Competitor>();
+//	Deque<Competitor> finishQueue = new ArrayDeque<Competitor>();
+//	Deque<Competitor> completed = new ArrayDeque<Competitor>();
 	
     // make a new IND event
 	public Event setEvent(String type){
 		switch (type) {
 		case "IND":
-			return new IndEvent();
+			event = new IndEvent();
 		case "PARIND":
-			break;
+			event = new ParIndEvent();
 		case "GRP":
-			break;
+			//break;
 		case "PARGRP":
-			break;
+			//break;
+		return event;
 		}
 		return null;
 	}
@@ -39,9 +33,9 @@ public class Race {
 	public boolean newRun(){
         // if there is not a run in progress, clear every queue, increment the number of runs, and set runInProgress true
 		if(!runInProgress){
-			startQueue.clear();
-			finishQueue.clear();
-			completed.clear();
+			event.startQueue.clear();
+			event.finishQueue.clear();
+			event.completed.clear();
 			runNum++;
 			runInProgress=true;
 			return runInProgress;
@@ -58,9 +52,9 @@ public class Race {
 	}
     // print the race
 	public void print(){
-		System.out.println("Run " +runNum+" Results");
+		System.out.println("Run " +runNum+" "+event.getEventType()+" Results");
 		System.out.println("NUM\tTime");
-		for(Competitor competitor:completed){
+		for(Competitor competitor:event.completed){
 			System.out.print(competitor.getCompetitorNumber() + "\t");
 			System.out.println(competitor.dnf ? "DNF" : String.format("%.2f", competitor.getRaceTime()));
 		}
@@ -72,9 +66,9 @@ public class Race {
     
 	public boolean setNum(int competitorNo){
 		Competitor temp=new Competitor(competitorNo);
-		if(startQueue.contains(temp)||finishQueue.contains(temp)||completed.contains(temp))
-			return false;
-		return startQueue.add(temp);
+		//if(event.startQueue.contains(temp)||event.finishQueue.contains(temp)||event.completed.contains(temp))
+		//	return false;
+		return event.startQueue.add(temp);
 	}
     
     //todo
@@ -89,13 +83,10 @@ public class Race {
     
     // take the current competitor from the finish queue and turn dnf true, and put the competitor to the completed queue
 	public void dnf(){
-		Competitor temp;
-		temp=finishQueue.remove();
-		temp.dnf=true;
-		completed.add(temp);
+		event.dnf();
 	}
     // take the current competitor from the finsh queue and put it to the start queue 
 	public void cancel(){
-		startQueue.addFirst(finishQueue.removeLast());
+		event.cancel();
 	}
 }

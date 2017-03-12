@@ -1,21 +1,16 @@
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-/*
- The IndEvent class :) 
- This class defines the Individual Event object 🎎🤡
- 
- */
-
-public class IndEvent implements Event{//extends ChronoInterface implements Event{
+public class ParIndEvent implements Event{
 	Deque<Competitor> startQueue;// = new ArrayDeque<Competitor>();
 	Deque<Competitor> finishQueue;// = new ArrayDeque<Competitor>();
 	Deque<Competitor> completed;// = new ArrayDeque<Competitor>();
-	public IndEvent(){
+	public ParIndEvent(){
 		startQueue = new ArrayDeque<Competitor>();
 		finishQueue = new ArrayDeque<Competitor>();
 		completed = new ArrayDeque<Competitor>();
 	}
+	
 	Competitor temp;
 	
 	// if the start queue of the race is not empty
@@ -25,7 +20,6 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	@Override
 	public void start() {
 		if(!startQueue.isEmpty()){
-			System.out.println(x);
 			temp=startQueue.remove();
 			temp.setStartTime(Time.systemTime.getRunningTime());
 			finishQueue.add(temp);
@@ -56,6 +50,6 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	}
 	@Override
 	public String getEventType(){
-		return "IND";
+		return "PARIND";
 	}
 }

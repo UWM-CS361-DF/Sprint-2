@@ -15,7 +15,7 @@ public class ChronoInterface {
 	List<Channel> channels = new ArrayList<Channel>(9);//0 will be an empty channel location for ease of assigning
 	Power power = new Power();
 	Race race = new Race();
-	Event event = new IndEvent();
+	//Event event = new IndEvent();
 	
 	public ChronoInterface(){
 		channels.add(0,null);
@@ -50,9 +50,9 @@ public class ChronoInterface {
 			if(channels.get(Integer.parseInt(channel)).trig()){
 				System.out.println("Triggered Channel "+channel);
 				if(Integer.parseInt(channel)%2==0)
-					event.finish();
+					race.event.finish();
 				else
-					event.start();
+					race.event.start();
 			}
 			else
 				System.out.println("Unable to Trigger Channel "+channel);		
