@@ -16,7 +16,6 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 		finishQueue = new ArrayDeque<Competitor>();
 		completed = new ArrayDeque<Competitor>();
 	}
-	Competitor temp;
 	
 	// if the start queue of the race is not empty
 	// take out the head of the start queue
@@ -24,6 +23,7 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	// put the competitor to the finish queue
 	@Override
 	public boolean add(int competitorNo){
+		Competitor temp=new Competitor(competitorNo);
 		if(startQueue.contains(temp)||finishQueue.contains(temp)||completed.contains(temp))
 			return false;
 		startQueue.add(new Competitor(competitorNo));
@@ -32,7 +32,7 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	@Override
 	public void start() {
 		if(!startQueue.isEmpty()){
-			temp=startQueue.remove();
+			Competitor temp=startQueue.remove();
 			temp.setStartTime(Time.systemTime.getRunningTime());
 			finishQueue.add(temp);
 		}
@@ -44,7 +44,7 @@ public class IndEvent implements Event{//extends ChronoInterface implements Even
 	@Override
 	public void finish() {
 		if(!finishQueue.isEmpty()){
-			temp=finishQueue.remove();
+			Competitor temp=finishQueue.remove();
 			temp.setFinishTime(Time.systemTime.getRunningTime());
 			completed.add(temp);
 		}

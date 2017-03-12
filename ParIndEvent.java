@@ -11,14 +11,13 @@ public class ParIndEvent implements Event{
 		completed = new ArrayDeque<Competitor>();
 	}
 	
-	Competitor temp;
-	
 	// if the start queue of the race is not empty
 	// take out the head of the start queue
 	// set the start time of the competitor
 	// put the competitor to the finish queue
 	@Override
 	public boolean add(int competitorNo){
+		Competitor temp=new Competitor(competitorNo);
 		if(startQueue.contains(temp)||finishQueue.contains(temp)||completed.contains(temp))
 			return false;
 		startQueue.add(new Competitor(competitorNo));
@@ -27,7 +26,7 @@ public class ParIndEvent implements Event{
 	@Override
 	public void start() {
 		if(!startQueue.isEmpty()){
-			temp=startQueue.remove();
+			Competitor temp=startQueue.remove();
 			temp.setStartTime(Time.systemTime.getRunningTime());
 			finishQueue.add(temp);
 		}
@@ -39,7 +38,7 @@ public class ParIndEvent implements Event{
 	@Override
 	public void finish() {
 		if(!finishQueue.isEmpty()){
-			temp=finishQueue.remove();
+			Competitor temp=finishQueue.remove();
 			temp.setFinishTime(Time.systemTime.getRunningTime());
 			completed.add(temp);
 		}
