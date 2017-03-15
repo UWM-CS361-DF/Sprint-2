@@ -16,8 +16,6 @@ public class ChronoInterface {
 	public static ChronoInterface chronoTimer = new ChronoInterface();
 	List<Channel> channels = new ArrayList<Channel>(9);//0 will be an empty channel location for ease of assigning
 	Power power = new Power();
-//	Race race = new Race();
-	//Event event = new IndEvent();
 	boolean runInProgress=true;
 	int runNum=1;
 	ArrayList<Event> runs= new ArrayList<Event>();

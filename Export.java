@@ -11,6 +11,7 @@ public class Export {
 		BufferedWriter buffer = new BufferedWriter(file);
 		json = g.toJson(run);
 		buffer.write(json);
+		buffer.flush();
 		buffer.close();
 	}
 }
