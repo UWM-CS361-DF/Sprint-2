@@ -112,7 +112,7 @@ public class ChronoInterface {
 	}
 	public void endrun() throws Exception{
 		if(power.powerStatus){
-			new Export(runs.get(runNum));
+			new Export(runs.get(runNum),runNum);
 			runInProgress=false;
 			System.out.println("Ended Run "+(runNum));
 		}
@@ -123,7 +123,7 @@ public class ChronoInterface {
 	}
 	public void export(String run) throws Exception{
 		if(power.powerStatus){
-			new Export(runs.get(runNum));
+			new Export(runs.get(runNum),runNum);
 			runInProgress=false;
 		}
 	}

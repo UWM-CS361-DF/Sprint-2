@@ -6,8 +6,8 @@ public class Export {
 	Gson g = new Gson();
 	String json;
 	
-	public Export(Event run) throws Exception{
-		FileWriter file = new FileWriter("run"+ChronoInterface.chronoTimer.runNum+".txt");
+	public Export(Event run, int runNum) throws Exception{
+		FileWriter file = new FileWriter("run"+runNum+".txt");
 		BufferedWriter buffer = new BufferedWriter(file);
 		json = g.toJson(run);
 		buffer.write(json);
