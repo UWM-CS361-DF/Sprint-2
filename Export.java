@@ -7,7 +7,7 @@ public class Export {
 	String json;
 	
 	public Export(Event run, int runNum) throws Exception{
-		FileWriter file = new FileWriter("run"+runNum+".txt");
+		FileWriter file = new FileWriter("RUN"+runNum+".txt");
 		BufferedWriter buffer = new BufferedWriter(file);
 		json = g.toJson(run);
 		buffer.write(json);
